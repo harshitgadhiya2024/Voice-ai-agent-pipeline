@@ -9,24 +9,18 @@ services:
     env_file: .env
     environment:
       HOST: 0.0.0.0
-      PORT: ${BACKEND_PORT:-6120}
+      PORT: "6120"
       GROQ_API_KEY: ${GROQ_API_KEY}
       SARVAM_API_KEY: ${SARVAM_API_KEY}
       CORS_ORIGINS: ${CORS_ORIGINS}
     expose:
       - "6120"
     healthcheck:
-      test:
-        [
-          "CMD",
-          "curl",
-          "-fsS",
-          "http://127.0.0.1:${BACKEND_PORT:-6120}/health",
-        ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 25s
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:6120/health || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 6
+      start_period: 60s
     networks:
       - voice
 

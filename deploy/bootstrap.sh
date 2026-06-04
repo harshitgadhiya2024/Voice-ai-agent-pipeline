@@ -42,15 +42,34 @@ set_var_nginx_http() {
 set_var_nginx_http
 export NGINX_CONF_DIR=conf.d.http
 
-"${COMPOSE[@]}" up -d backend frontend nginx
+if ! "${COMPOSE[@]}" up -d backend; then
+  echo "Backend failed to start. Logs:" >&2
+  "${COMPOSE[@]}" logs --tail=80 backend >&2 || true
+  exit 1
+fi
 
-echo "==> Waiting for backend health..."
-for _ in $(seq 1 60); do
-  if "${COMPOSE[@]}" exec -T backend curl -fsS "http://127.0.0.1:${BACKEND_PORT}/health" &>/dev/null; then
+echo "==> Waiting for backend health (up to 3 min)..."
+healthy=0
+for _ in $(seq 1 90); do
+  if "${COMPOSE[@]}" exec -T backend curl -fsS "http://127.0.0.1:6120/health" &>/dev/null; then
+    healthy=1
     break
+  fi
+  if ! "${COMPOSE[@]}" ps backend 2>/dev/null | grep -qE 'running|Up'; then
+    echo "Backend container stopped. Logs:" >&2
+    "${COMPOSE[@]}" logs --tail=100 backend >&2 || true
+    exit 1
   fi
   sleep 2
 done
+if [[ "$healthy" -ne 1 ]]; then
+  echo "Backend did not become healthy. Logs:" >&2
+  "${COMPOSE[@]}" logs --tail=100 backend >&2 || true
+  exit 1
+fi
+
+echo "==> Starting frontend + nginx..."
+"${COMPOSE[@]}" up -d frontend nginx
 
 echo "==> Requesting Let's Encrypt certificate..."
 "${COMPOSE[@]}" run --rm certbot-init

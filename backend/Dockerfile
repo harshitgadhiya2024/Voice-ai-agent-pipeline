@@ -16,7 +16,7 @@ ENV PORT=6120
 
 EXPOSE 6120
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-    CMD curl -fsS "http://127.0.0.1:${PORT}/health" || exit 1
+HEALTHCHECK --interval=10s --timeout=10s --start-period=60s --retries=6 \
+    CMD curl -fsS http://127.0.0.1:6120/health || exit 1
 
-CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port ${PORT:-6120}"]

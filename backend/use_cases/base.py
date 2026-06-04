@@ -82,9 +82,14 @@ class UseCase:
 
     @property
     def knowledge_record_count(self) -> int:
-        from use_cases.knowledge_loader import count_knowledge_records
+        from use_cases.knowledge_loader import (
+            count_knowledge_records,
+            load_knowledge,
+        )
 
-        return count_knowledge_records(self.knowledge)
+        if self.knowledge:
+            return count_knowledge_records(self.knowledge)
+        return count_knowledge_records(load_knowledge(self.id))
 
     def to_metadata(self) -> dict[str, Any]:
         """Public metadata for the frontend gallery (no full knowledge dump)."""

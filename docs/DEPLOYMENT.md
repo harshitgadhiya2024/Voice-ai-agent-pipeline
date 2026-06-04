@@ -184,6 +184,7 @@ flowchart LR
 | WebSocket fails | Use `wss://api.voice.aavishailab.com/ws/voice`; check nginx `api` SSL config. |
 | CORS errors | `CORS_ORIGINS` must be `https://voice.aavishailab.com`; restart backend. |
 | 502 on API | `docker compose logs backend`; verify `GROQ_API_KEY` / `SARVAM_API_KEY`. |
+| `backend is unhealthy` | Run `docker compose logs backend`. Rebuild after pull: `docker compose build --no-cache backend && docker compose up -d backend`. Ensure `.env` has API keys. Backend listens on **6120** inside Docker (not 8000). |
 
 ---
 

@@ -27,6 +27,11 @@ _RAW: tuple[UseCase, ...] = (
     LDCE_COLLEGE,
 )
 
+_RAW_BY_ID: dict[str, UseCase] = {uc.id: uc for uc in _RAW}
+
+# Hydrated use cases (with JSON knowledge) — loaded on first request, not at import.
+_USE_CASE_CACHE: dict[str, UseCase] = {}
+
 
 def _hydrate(uc: UseCase) -> UseCase:
     """Attach large JSON knowledge base (1000+ records total) per domain."""
@@ -36,15 +41,46 @@ def _hydrate(uc: UseCase) -> UseCase:
     return uc
 
 
-USE_CASES: dict[str, UseCase] = {uc.id: _hydrate(uc) for uc in _RAW}
-
 # First demo selected on the gallery if user hits the demo route directly.
 DEFAULT_USE_CASE_ID = "real_estate"
 
 
 def get_use_case(use_case_id: str) -> UseCase:
-    return USE_CASES.get(use_case_id) or USE_CASES[DEFAULT_USE_CASE_ID]
+    uid = use_case_id if use_case_id in _RAW_BY_ID else DEFAULT_USE_CASE_ID
+    if uid not in _USE_CASE_CACHE:
+        _USE_CASE_CACHE[uid] = _hydrate(_RAW_BY_ID[uid])
+    return _USE_CASE_CACHE[uid]
 
 
 def list_use_cases() -> list[dict]:
-    return [uc.to_metadata() for uc in USE_CASES.values()]
+    return [uc.to_metadata() for uc in _RAW]
+
+
+def all_use_case_ids() -> tuple[str, ...]:
+    return tuple(_RAW_BY_ID.keys())
+
+
+# Back-compat for code that imported USE_CASES (lazy dict view).
+class _UseCasesProxy(dict):
+    def __getitem__(self, key: str) -> UseCase:
+        return get_use_case(key)
+
+    def get(self, key: str, default=None):  # type: ignore[override]
+        if key not in _RAW_BY_ID:
+            return default
+        return get_use_case(key)
+
+    def values(self):
+        return [get_use_case(uid) for uid in _RAW_BY_ID]
+
+    def items(self):
+        return [(uid, get_use_case(uid)) for uid in _RAW_BY_ID]
+
+    def __iter__(self):
+        return iter(_RAW_BY_ID)
+
+    def __len__(self) -> int:
+        return len(_RAW_BY_ID)
+
+
+USE_CASES: _UseCasesProxy = _UseCasesProxy()

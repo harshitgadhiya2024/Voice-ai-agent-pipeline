@@ -1,7 +1,10 @@
+from pathlib import Path
 from typing import Optional, Union
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_ENV_FILE = Path(__file__).resolve().parent / ".env"
 
 
 # ---- Language config -------------------------------------------------------
@@ -284,7 +287,7 @@ class Settings(BaseSettings):
     college_id: str = "ldce"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_ENV_FILE if _ENV_FILE.is_file() else None,
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
