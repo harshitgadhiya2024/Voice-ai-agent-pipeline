@@ -1,0 +1,31 @@
+---
+description: Always use conda base environment for Python/backend work
+alwaysApply: true
+---
+
+# Conda base environment
+
+This project uses the **conda `base`** environment for all Python/backend work.
+
+## Shell commands
+
+When running backend Python, pip, or conda commands:
+
+```bash
+# From backend/ — explicit base env
+conda run -n base python main.py
+conda run -n base pip install -r requirements.txt
+conda run -n base uvicorn main:app --reload
+```
+
+Do **not** use other conda envs (e.g. `aavish-ai-labs`) unless the user explicitly asks.
+
+## Paths
+
+- Conda base: `/Users/harshitgadhiya/miniconda3`
+- Python: `/Users/harshitgadhiya/miniconda3/bin/python`
+- Pip: `conda run -n base pip ...`
+
+## Working directory
+
+Backend commands should run from `backend/` (where `main.py` and `requirements.txt` live).

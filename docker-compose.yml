@@ -1,0 +1,118 @@
+name: voice-ai-agent
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      PORT: ${BACKEND_PORT:-6120}
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      SARVAM_API_KEY: ${SARVAM_API_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+    expose:
+      - "6120"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "curl",
+          "-fsS",
+          "http://127.0.0.1:${BACKEND_PORT:-6120}/health",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+    networks:
+      - voice
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+        NEXT_PUBLIC_WS_URL: ${NEXT_PUBLIC_WS_URL}
+        NEXT_PUBLIC_AUTO_LISTEN: ${NEXT_PUBLIC_AUTO_LISTEN:-false}
+        NEXT_PUBLIC_VAD_REDEMPTION_FRAMES: ${NEXT_PUBLIC_VAD_REDEMPTION_FRAMES:-14}
+        NEXT_PUBLIC_SPEECH_END_FLUSH_MS: ${NEXT_PUBLIC_SPEECH_END_FLUSH_MS:-450}
+        NEXT_PUBLIC_TTS_PLAYBACK_GAP_MS: ${NEXT_PUBLIC_TTS_PLAYBACK_GAP_MS:-500}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    expose:
+      - "3000"
+    networks:
+      - voice
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deploy/nginx/snippets:/etc/nginx/snippets:ro
+      - ./deploy/nginx/${NGINX_CONF_DIR:-conf.d.http}:/etc/nginx/conf.d:ro
+      - certbot-webroot:/var/www/certbot:ro
+      - certbot-certs:/etc/letsencrypt:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - voice
+
+  certbot:
+    image: certbot/certbot:latest
+    restart: unless-stopped
+    volumes:
+      - certbot-webroot:/var/www/certbot
+      - certbot-certs:/etc/letsencrypt
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        trap exit TERM
+        while :; do
+          certbot renew --quiet --webroot -w /var/www/certbot
+          sleep 12h & wait $$!
+        done
+    networks:
+      - voice
+
+  certbot-init:
+    image: certbot/certbot:latest
+    env_file: .env
+    volumes:
+      - certbot-webroot:/var/www/certbot
+      - certbot-certs:/etc/letsencrypt
+    command:
+      - certonly
+      - --webroot
+      - -w
+      - /var/www/certbot
+      - --email
+      - ${CERTBOT_EMAIL}
+      - --agree-tos
+      - --no-eff-email
+      - -d
+      - ${FRONTEND_DOMAIN}
+      - -d
+      - ${BACKEND_DOMAIN}
+      - --non-interactive
+    networks:
+      - voice
+
+networks:
+  voice:
+    driver: bridge
+
+volumes:
+  certbot-webroot:
+  certbot-certs:

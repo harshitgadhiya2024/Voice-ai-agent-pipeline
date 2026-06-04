@@ -1,0 +1,15 @@
+{
+  "python.defaultInterpreterPath": "/Users/harshitgadhiya/miniconda3/bin/python",
+  "python.condaPath": "/Users/harshitgadhiya/miniconda3/bin/conda",
+  "python.terminal.activateEnvironment": true,
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python-envs.pythonProjects": [],
+  "terminal.integrated.profiles.osx": {
+    "conda-base": {
+      "path": "/bin/zsh",
+      "args": ["-l", "-c", "source ~/miniconda3/etc/profile.d/conda.sh && conda activate base && exec zsh"]
+    }
+  },
+  "terminal.integrated.defaultProfile.osx": "conda-base"
+}

@@ -1,0 +1,1 @@
+"""College knowledge and configuration."""

@@ -1,0 +1,136 @@
+{
+  "id": "ldce",
+  "name": "Lalbhai Dalpatbhai College of Engineering",
+  "short_name": "LDCE",
+  "website": "https://ldce.ac.in/",
+  "established": 1948,
+  "affiliation": "Gujarat Technological University (GTU)",
+  "administration": "Directorate of Technical Education, Government of Gujarat",
+  "address": "Opposite Gujarat University, Navrangpura, Ahmedabad - 380015, Gujarat, India",
+  "tagline": "Envisioning future, celebrating legacy",
+  "motto": "सा विद्या या विमुक्तये",
+  "about": "LDCE is one of Ahmedabad's premier engineering institutions. It is surrounded by PRL, ATIRA, ISRO, IIM-A, and CEPT. Established in 1948 for quality higher education in engineering.",
+  "stats": {
+    "ug_students": "large undergraduate intake across 20+ branches",
+    "pg_students": "multiple postgraduate programs",
+    "faculty": "experienced faculty across departments",
+    "staff": "administrative and support staff",
+    "startups": "DIPP registered startups via SSIP",
+    "phd_scholars": "research scholars",
+    "patents": "25+ patents filed by students and faculty",
+    "projects": "industry projects and consultancy"
+  },
+  "ug_departments": [
+    "Artificial Intelligence and Machine Learning",
+    "Automobile Engineering",
+    "Biomedical Engineering",
+    "Chemical Engineering",
+    "Civil Engineering",
+    "Computer Engineering",
+    "Electrical Engineering",
+    "Electronics and Communication Engineering",
+    "Environmental Engineering",
+    "Information Technology",
+    "Instrumentation and Control Engineering",
+    "Mechanical Engineering",
+    "Plastic Technology",
+    "Robotics and Automation",
+    "Rubber Technology",
+    "Science and Humanities",
+    "Textile Technology"
+  ],
+  "pg_programs": [
+    "Applied Instrumentation",
+    "Communication Systems",
+    "Computer Aided Design & Manufacturing",
+    "Computer Aided Process Design",
+    "Computer Engineering (Software Engineering)",
+    "Cryogenic Engineering",
+    "Electric Vehicle Technology",
+    "Electrical Engineering",
+    "Environmental Management",
+    "Geotechnical Engineering",
+    "Information Technology",
+    "Internal Combustion Engines & Automobile",
+    "Master of Computer Application (MCA)",
+    "Rubber Technology",
+    "Structural Engineering",
+    "Textile Engineering",
+    "Transportation Engineering",
+    "VLSI Design",
+    "Water Resources & Management"
+  ],
+  "admissions": {
+    "ug": "UG admission through ACPC / state counselling as per GTU and government norms. Check ldce.ac.in Admissions section for current notices.",
+    "pg": "PG admission through GTU PGCET and institute criteria.",
+    "working_professional": "Working Professional Programs available — see Admissions on website.",
+    "international": "FN/OCI/PIO/NRI/CIWGC admission category available.",
+    "contact_note": "For exact dates, fees, and forms visit the Admissions page on ldce.ac.in or contact the admission cell."
+  },
+  "fees": {
+    "note": "Fee structure varies by program (UG/PG), category, and government revision. Pay fees online via Fees Payment on ldce.ac.in. For exact semester fees contact the accounts section or check latest circulars.",
+    "payment": "Online fee payment available on the institute website under Fees Payment."
+  },
+  "placement": {
+    "overview": "LDCE has active campus placement with recruiters from IT, core engineering, and analytics sectors.",
+    "recruiters_sample": [
+      "IBM",
+      "TATA Consultancy Services",
+      "Accenture",
+      "Torrent Power",
+      "Mahindra EPC",
+      "GSFC",
+      "Cybage",
+      "Searce",
+      "Thomson Reuters",
+      "Surekha Technologies",
+      "IP Calculus"
+    ],
+    "contact_note": "Placement cell coordinates internships and campus drives — check Placement section on website."
+  },
+  "facilities": {
+    "hostel": "Hostel facility available for students — apply through student section / hostel office.",
+    "library": "Central library with books, journals, and digital resources.",
+    "sports": "Sports facilities and teams for various games.",
+    "canteen": "Campus canteen on premises.",
+    "labs": [
+      "Bosch ATC",
+      "HVAC Blue Star lab",
+      "Hydraulics & Pneumatics lab",
+      "Super Computing Facility",
+      "Industry sponsored labs"
+    ],
+    "student_section": "Student Section handles certificates, ID, and administrative student services.",
+    "campus": "LDCE Smart Campus Navigator available on website."
+  },
+  "innovation": {
+    "SSIP": "SSIP supports student startups",
+    "e_cell": "Entrepreneurship Cell",
+    "design_lab": "Design Lab",
+    "incubation": "Incubation Center",
+    "research": "Research papers, patents, and research grants"
+  },
+  "student_life": {
+    "clubs": "Multiple LDCE clubs",
+    "chapters": ["ISA Student Chapter", "ISHRAE Student Chapter"],
+    "ncc": "NCC unit",
+    "nss": "NSS activities",
+    "events": "Technical and cultural events throughout the year",
+    "alumni": "Alumni Association"
+  },
+  "quick_links": [
+    "Admission",
+    "RTI",
+    "Mandatory Disclosure",
+    "Academic Calendar",
+    "Circulars",
+    "Grievance",
+    "Contact",
+    "NIRF"
+  ],
+  "contact": {
+    "address": "Opposite Gujarat University, Navrangpura, Ahmedabad - 380015",
+    "website": "https://ldce.ac.in/",
+    "student_section": "Use Contact page on ldce.ac.in for department-wise phone and email."
+  }
+}
