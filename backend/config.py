@@ -257,14 +257,12 @@ class Settings(BaseSettings):
     sarvam_api_key: str
     host: str = "0.0.0.0"
     port: int = 8000
-    cors_origins: list[str] = ["http://localhost:3000"]
+    # Comma-separated origins (str avoids pydantic-settings JSON-parsing list fields)
+    cors_origins: str = "http://localhost:3000"
 
-    @field_validator("cors_origins", mode="before")
-    @classmethod
-    def _parse_cors_origins(cls, v: Union[str, list[str]]) -> list[str]:
-        if isinstance(v, str):
-            return [x.strip() for x in v.split(",") if x.strip()]
-        return v
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [x.strip() for x in self.cors_origins.split(",") if x.strip()]
 
     # LLM
     llm_model: str = "llama-3.3-70b-versatile"
